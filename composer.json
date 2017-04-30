@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "ReactiveChat\\": "src/"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.3.6",
+        "symfony/console": "^3.2"
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.2"
+    }
+}
