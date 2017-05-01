@@ -1,6 +1,8 @@
 <?php
 namespace ReactiveChat\Command;
 
+use Ratchet\Http\HttpServer;
+use Ratchet\WebSocket\WsServer;
 use ReactiveChat\Chat\Chat;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +25,7 @@ class StartChatCommand extends Command
         $output->writeln('Starting server on localhost:9100');
 
         $server = IoServer::factory(
-            new Chat(new \SplObjectStorage()),
+            new HttpServer(new WsServer(new Chat(new \SplObjectStorage()))),
             9100
         );
 
