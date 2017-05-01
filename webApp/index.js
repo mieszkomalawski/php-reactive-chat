@@ -9561,7 +9561,7 @@ var Chat = function (_React$Component) {
             console.log('message received:' + e.data);
             var state = this.state;
             state.messages.push({
-                text: e.data
+                text: 'Other guy: ' + e.data
             });
             this.setState(state);
         }.bind(_this);
@@ -9583,6 +9583,11 @@ var Chat = function (_React$Component) {
         value: function onSubmitHandler(event) {
             event.preventDefault();
             this.state.conn.send(this.state.terminalInput);
+            var state = this.state;
+            state.messages.push({
+                text: "You: " + this.state.terminalInput
+            });
+            this.setState(state);
         }
     }, {
         key: 'render',

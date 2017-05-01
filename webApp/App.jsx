@@ -1,8 +1,8 @@
 import React from 'react';
 
-class Chat extends React.Component{
+class Chat extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
         this.state = {
             conn: {},
@@ -11,15 +11,15 @@ class Chat extends React.Component{
         }
         this.state.conn = new WebSocket('ws://localhost:9100');
 
-        this.state.conn.onopen = function(e) {
+        this.state.conn.onopen = function (e) {
             console.log("Connection established!");
         };
 
-        this.state.conn.onmessage = function(e) {
+        this.state.conn.onmessage = function (e) {
             console.log('message received:' + e.data);
             let state = this.state;
             state.messages.push({
-                text: e.data
+                text: 'Other guy: ' + e.data
             });
             this.setState(state);
         }.bind(this);
@@ -37,19 +37,24 @@ class Chat extends React.Component{
     onSubmitHandler(event) {
         event.preventDefault();
         this.state.conn.send(this.state.terminalInput);
+        let state = this.state;
+        state.messages.push({
+            text: "You: " + this.state.terminalInput
+        });
+        this.setState(state);
     }
 
     render() {
         return (
             <div>
-                <ChatView messages={this.state.messages} />
+                <ChatView messages={this.state.messages}/>
                 <ChatTerminal onSubmit={this.onSubmitHandler} onChange={this.onTerminalChange}/>
             </div>
         )
     }
 }
 
-class ChatView extends React.Component{
+class ChatView extends React.Component {
 
 
     render() {
@@ -61,7 +66,7 @@ class ChatView extends React.Component{
         );
 
 
-        return(
+        return (
             <div>
                 {listItems}
             </div>
@@ -69,13 +74,13 @@ class ChatView extends React.Component{
     }
 }
 
-class ChatTerminal extends React.Component{
+class ChatTerminal extends React.Component {
     render() {
-        return(
+        return (
             <div>
                 <form onSubmit={this.props.onSubmit}>
                     <input type="text" name="terminal" onChange={this.props.onChange}/>
-                    <input type="submit" />
+                    <input type="submit"/>
                 </form>
             </div>
         )
